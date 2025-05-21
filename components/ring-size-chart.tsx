@@ -1,0 +1,112 @@
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+
+export function RingSizeChart() {
+  return (
+    <div className="overflow-x-auto">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="font-bold">US</TableHead>
+            <TableHead className="font-bold">UK</TableHead>
+            <TableHead className="font-bold">EU</TableHead>
+            <TableHead className="font-bold">Diameter (mm)</TableHead>
+            <TableHead className="font-bold">Circumference (mm)</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          <TableRow>
+            <TableCell>3</TableCell>
+            <TableCell>F</TableCell>
+            <TableCell>44</TableCell>
+            <TableCell>14.1</TableCell>
+            <TableCell>44.2</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>3.5</TableCell>
+            <TableCell>G</TableCell>
+            <TableCell>45.5</TableCell>
+            <TableCell>14.5</TableCell>
+            <TableCell>45.5</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>4</TableCell>
+            <TableCell>H</TableCell>
+            <TableCell>47</TableCell>
+            <TableCell>14.9</TableCell>
+            <TableCell>46.8</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>4.5</TableCell>
+            <TableCell>I</TableCell>
+            <TableCell>48.5</TableCell>
+            <TableCell>15.3</TableCell>
+            <TableCell>48.0</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>5</TableCell>
+            <TableCell>J</TableCell>
+            <TableCell>50</TableCell>
+            <TableCell>15.7</TableCell>
+            <TableCell>49.3</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>5.5</TableCell>
+            <TableCell>K</TableCell>
+            <TableCell>51.5</TableCell>
+            <TableCell>16.1</TableCell>
+            <TableCell>50.6</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>6</TableCell>
+            <TableCell>L</TableCell>
+            <TableCell>53</TableCell>
+            <TableCell>16.5</TableCell>
+            <TableCell>51.9</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>6.5</TableCell>
+            <TableCell>M</TableCell>
+            <TableCell>54</TableCell>
+            <TableCell>16.9</TableCell>
+            <TableCell>53.1</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>7</TableCell>
+            <TableCell>N</TableCell>
+            <TableCell>55.5</TableCell>
+            <TableCell>17.3</TableCell>
+            <TableCell>54.4</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>7.5</TableCell>
+            <TableCell>O</TableCell>
+            <TableCell>57</TableCell>
+            <TableCell>17.7</TableCell>
+            <TableCell>55.7</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>8</TableCell>
+            <TableCell>P</TableCell>
+            <TableCell>58</TableCell>
+            <TableCell>18.1</TableCell>
+            <TableCell>57.0</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>8.5</TableCell>
+            <TableCell>Q</TableCell>
+            <TableCell>59.5</TableCell>
+            <TableCell>18.5</TableCell>
+            <TableCell>58.3</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>9</TableCell>
+            <TableCell>R</TableCell>
+            <TableCell>61</TableCell>
+            <TableCell>19.0</TableCell>
+            <TableCell>59.5</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </div>
+  )
+}

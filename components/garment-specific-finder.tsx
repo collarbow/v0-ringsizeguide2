@@ -1,495 +1,513 @@
 "use client"
 
 import { useState } from "react"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { ArrowRight, ArrowLeft, Check, Ruler } from "lucide-react"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useLanguage } from "@/components/language-provider"
-import { Progress } from "@/components/ui/progress"
-import { Badge } from "@/components/ui/badge"
-import { GarmentIllustration } from "@/components/garment-illustrations"
+import { SocialShare } from "@/components/social-share"
+import { BodyShapeImage } from "@/components/body-shape-images"
 
-type GarmentType = "tops" | "bottoms" | "dresses"
-
-// Size chart measurements for reference in the algorithm
-const sizeChartData = {
-  bust: {
-    fitted: {
-      XXS: [76, 79],
-      XS: [80, 83],
-      S: [84, 87],
-      M: [88, 91],
-      L: [92, 95],
-      XL: [96, 99],
-      XXL: [100, 103],
-    },
-    regular: {
-      XXS: [82, 85],
-      XS: [86, 89],
-      S: [90, 93],
-      M: [94, 97],
-      L: [98, 101],
-      XL: [102, 105],
-      XXL: [106, 109],
-    },
-    oversize: {
-      XXS: [88, 91],
-      XS: [92, 95],
-      S: [96, 99],
-      M: [100, 103],
-      L: [104, 107],
-      XL: [108, 111],
-      XXL: [112, 115],
-    },
-  },
-  waist: {
-    XXS: [60, 63],
-    XS: [64, 67],
-    S: [68, 71],
-    M: [72, 75],
-    L: [76, 79],
-    XL: [80, 83],
-    XXL: [84, 87],
-  },
-  hips: {
-    XXS: [86, 89],
-    XS: [90, 93],
-    S: [94, 97],
-    M: [98, 101],
-    L: [102, 105],
-    XL: [106, 109],
-    XXL: [110, 113],
-  },
+interface GarmentSpecificFinderProps {
+  onComplete?: (size: string) => void
 }
 
-type SizeResult = {
-  collarAndBowSize: string
-  usSize: string
-  ukSize: string
-  euSize: string
-  descriptionKey: string
-  popularity: number
-  alternativeSize?: string
-  alternativePopularity?: number
-}
+export function GarmentSpecificFinder({ onComplete }: GarmentSpecificFinderProps) {
+  const { t, language, isRtl } = useLanguage()
+  const [step, setStep] = useState(1)
+  const [garmentType, setGarmentType] = useState<string>("")
+  const [bust, setBust] = useState<string>("")
+  const [waist, setWaist] = useState<string>("")
+  const [hips, setHips] = useState<string>("")
+  const [bodyShape, setBodyShape] = useState<string>("")
+  const [fitPreference, setFitPreference] = useState<string>("")
+  const [result, setResult] = useState<string>("")
+  const [resultDetails, setResultDetails] = useState<string[]>([])
 
-export function GarmentSpecificFinder() {
-  const { t, isRtl } = useLanguage()
-  const [garmentType, setGarmentType] = useState<GarmentType>("tops")
-  const [measurements, setMeasurements] = useState({
-    bust: "",
-    waist: "",
-    hips: "",
-  })
-  const [fitPreference, setFitPreference] = useState("regular")
-  const [showResult, setShowResult] = useState(false)
-  const [sizeResult, setSizeResult] = useState<SizeResult | null>(null)
+  const handleNext = () => {
+    if (step < 6) {
+      setStep(step + 1)
+    } else {
+      // Calculate size based on inputs
+      calculateSize()
+    }
+  }
 
-  const handleMeasurementChange = (field: keyof typeof measurements, value: string) => {
-    setMeasurements({
-      ...measurements,
-      [field]: value,
-    })
+  const handleBack = () => {
+    if (step > 1) {
+      setStep(step - 1)
+    }
   }
 
   const calculateSize = () => {
+    // More sophisticated algorithm based on garment type, measurements, body shape, and fit preference
     let size = "M" // Default size
+    const details: string[] = []
 
-    if (garmentType === "tops") {
-      // For tops, use bust measurement
-      const bustMeasurement = Number.parseInt(measurements.bust)
-      if (!isNaN(bustMeasurement)) {
-        const fitCategory = fitPreference === "tight" ? "fitted" : fitPreference === "loose" ? "oversize" : "regular"
-        size = findBestSizeMatchForBust(bustMeasurement, fitCategory)
-      }
+    // Convert measurements to numbers
+    const bustNum = Number.parseInt(bust)
+    const waistNum = Number.parseInt(waist)
+    const hipsNum = Number.parseInt(hips)
+
+    // Determine base size based on primary measurement for the garment type
+    if (garmentType === "tops" || garmentType === "dresses") {
+      // For tops and dresses, bust is the primary measurement
+      if (bustNum < 86) size = "XS"
+      else if (bustNum < 90) size = "S"
+      else if (bustNum < 94) size = "M"
+      else if (bustNum < 98) size = "L"
+      else if (bustNum < 102) size = "XL"
+      else size = "XXL"
+
+      details.push(t("Your bust measurement is the primary factor for this garment."))
     } else if (garmentType === "bottoms") {
-      // For bottoms, use waist measurement
-      const waistMeasurement = Number.parseInt(measurements.waist)
-      if (!isNaN(waistMeasurement)) {
-        size = findBestSizeMatchForWaist(waistMeasurement)
+      // For bottoms, hips or waist might be the primary measurement
+      // Let's use hips as primary for this example
+      if (hipsNum < 90) size = "XS"
+      else if (hipsNum < 94) size = "S"
+      else if (hipsNum < 98) size = "M"
+      else if (hipsNum < 102) size = "L"
+      else if (hipsNum < 106) size = "XL"
+      else size = "XXL"
+
+      details.push(t("Your hip measurement is the primary factor for this garment."))
+    }
+
+    // Adjust for body shape
+    if (bodyShape === "curvier") {
+      if (garmentType === "tops" && waistNum < bustNum - 10) {
+        details.push(t("Your curvier shape may mean a more fitted waist in tops."))
+      } else if (garmentType === "bottoms" && hipsNum > waistNum + 12) {
+        // If there's a significant difference between hips and waist, might need to size up
+        details.push(t("With your curvier shape, consider sizing up for a better fit in the hips."))
+        if (size !== "XXL") {
+          const sizeIndex = ["XS", "S", "M", "L", "XL", "XXL"].indexOf(size)
+          size = ["XS", "S", "M", "L", "XL", "XXL"][sizeIndex + 1]
+        }
       }
-    } else if (garmentType === "dresses") {
-      // For dresses, consider both bust and waist
-      const bustMeasurement = Number.parseInt(measurements.bust)
-      const waistMeasurement = Number.parseInt(measurements.waist)
-
-      if (!isNaN(bustMeasurement) && !isNaN(waistMeasurement)) {
-        const fitCategory = fitPreference === "tight" ? "fitted" : fitPreference === "loose" ? "oversize" : "regular"
-        const bustSize = findBestSizeMatchForBust(bustMeasurement, fitCategory)
-        const waistSize = findBestSizeMatchForWaist(waistMeasurement)
-
-        // Take the larger of the two sizes to ensure comfort
-        const sizes = ["XXS", "XS", "S", "M", "L", "XL", "XXL"]
-        const bustIndex = sizes.indexOf(bustSize)
-        const waistIndex = sizes.indexOf(waistSize)
-
-        size = sizes[Math.max(bustIndex, waistIndex)]
-      } else if (!isNaN(bustMeasurement)) {
-        const fitCategory = fitPreference === "tight" ? "fitted" : fitPreference === "loose" ? "oversize" : "regular"
-        size = findBestSizeMatchForBust(bustMeasurement, fitCategory)
-      } else if (!isNaN(waistMeasurement)) {
-        size = findBestSizeMatchForWaist(waistMeasurement)
+    } else if (bodyShape === "straighter") {
+      if (garmentType === "tops" && Math.abs(bustNum - waistNum) < 6) {
+        details.push(t("Your straighter shape may mean a looser fit in the waist for tops."))
       }
     }
 
-    setSizeResult(getSizeEquivalents(size))
-    setShowResult(true)
+    // Adjust for fit preference
+    if (fitPreference === "slim") {
+      details.push(t("For your preferred slim fit, we recommend this size."))
+      // If someone wants slim fit, they might want to size down
+      if (size !== "XS" && garmentType !== "bottoms") {
+        const sizeIndex = ["XS", "S", "M", "L", "XL", "XXL"].indexOf(size)
+        size = ["XS", "S", "M", "L", "XL", "XXL"][sizeIndex - 1]
+      }
+    } else if (fitPreference === "loose") {
+      details.push(t("For your preferred loose fit, we recommend sizing up."))
+      // If someone wants loose fit, they might want to size up
+      if (size !== "XXL") {
+        const sizeIndex = ["XS", "S", "M", "L", "XL", "XXL"].indexOf(size)
+        size = ["XS", "S", "M", "L", "XL", "XXL"][sizeIndex + 1]
+      }
+    } else {
+      details.push(t("This regular fit should provide a comfortable, standard fit."))
+    }
+
+    setResult(size)
+    setResultDetails(details)
+    if (onComplete) {
+      onComplete(size)
+    }
   }
 
-  const findBestSizeMatchForBust = (bustMeasurement: number, fitCategory: string): string => {
-    const bustSizes = sizeChartData.bust[fitCategory as keyof typeof sizeChartData.bust]
-
-    // Find the size where the bust measurement falls within the range
-    for (const [size, range] of Object.entries(bustSizes)) {
-      if (bustMeasurement >= range[0] && bustMeasurement <= range[1]) {
-        return size
-      }
-    }
-
-    // If no exact match, find the closest size
-    let closestSize = "M" // Default
-    let minDifference = Number.MAX_VALUE
-
-    for (const [size, range] of Object.entries(bustSizes)) {
-      const midPoint = (range[0] + range[1]) / 2
-      const difference = Math.abs(bustMeasurement - midPoint)
-
-      if (difference < minDifference) {
-        minDifference = difference
-        closestSize = size
-      }
-    }
-
-    return closestSize
-  }
-
-  const findBestSizeMatchForWaist = (waistMeasurement: number): string => {
-    // Find the size where the waist measurement falls within the range
-    for (const [size, range] of Object.entries(sizeChartData.waist)) {
-      if (waistMeasurement >= range[0] && waistMeasurement <= range[1]) {
-        return size
-      }
-    }
-
-    // If no exact match, find the closest size
-    let closestSize = "M" // Default
-    let minDifference = Number.MAX_VALUE
-
-    for (const [size, range] of Object.entries(sizeChartData.waist)) {
-      const midPoint = (range[0] + range[1]) / 2
-      const difference = Math.abs(waistMeasurement - midPoint)
-
-      if (difference < minDifference) {
-        minDifference = difference
-        closestSize = size
-      }
-    }
-
-    return closestSize
-  }
-
-  const getSizeEquivalents = (collarAndBowSize: string): SizeResult => {
-    const sizeMap: Record<string, SizeResult> = {
-      XXS: {
-        collarAndBowSize: "XXS",
-        usSize: "00-0",
-        ukSize: "4-6",
-        euSize: "32-34",
-        descriptionKey: "xxsDescription",
-        popularity: 65,
-        alternativeSize: "XS",
-        alternativePopularity: 35,
-      },
-      XS: {
-        collarAndBowSize: "XS",
-        usSize: "0-2",
-        ukSize: "6-8",
-        euSize: "34-36",
-        descriptionKey: "xsDescription",
-        popularity: 70,
-        alternativeSize: "S",
-        alternativePopularity: 30,
-      },
-      S: {
-        collarAndBowSize: "S",
-        usSize: "4-6",
-        ukSize: "8-10",
-        euSize: "36-38",
-        descriptionKey: "sDescription",
-        popularity: 75,
-        alternativeSize: "M",
-        alternativePopularity: 25,
-      },
-      M: {
-        collarAndBowSize: "M",
-        usSize: "8-10",
-        ukSize: "12-14",
-        euSize: "40-42",
-        descriptionKey: "mDescription",
-        popularity: 80,
-        alternativeSize: "S",
-        alternativePopularity: 20,
-      },
-      L: {
-        collarAndBowSize: "L",
-        usSize: "12-14",
-        ukSize: "16-18",
-        euSize: "44-46",
-        descriptionKey: "lDescription",
-        popularity: 75,
-        alternativeSize: "M",
-        alternativePopularity: 25,
-      },
-      XL: {
-        collarAndBowSize: "XL",
-        usSize: "16-18",
-        ukSize: "20-22",
-        euSize: "48-50",
-        descriptionKey: "xlDescription",
-        popularity: 70,
-        alternativeSize: "L",
-        alternativePopularity: 30,
-      },
-      XXL: {
-        collarAndBowSize: "XXL",
-        usSize: "20-22",
-        ukSize: "24-26",
-        euSize: "52-54",
-        descriptionKey: "xxlDescription",
-        popularity: 65,
-        alternativeSize: "XL",
-        alternativePopularity: 35,
-      },
-    }
-
-    return sizeMap[collarAndBowSize] || sizeMap["M"]
-  }
-
-  const renderMeasurementForm = () => {
-    return (
-      <div className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+  const renderGarmentTypeStep = () => (
+    <>
+      <CardHeader>
+        <CardTitle className={isRtl ? "text-right" : "text-left"}>{t("Select Garment Type")}</CardTitle>
+        <CardDescription className={isRtl ? "text-right" : "text-left"}>
+          {t("Choose the type of garment you're looking to size")}
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-4">
+          {/* Shirts & Blazers */}
           <div
-            className={`flex flex-col items-center space-y-2 border rounded-lg p-4 hover:border-teal-500 transition-colors cursor-pointer ${garmentType === "tops" ? "border-teal-500 bg-teal-50" : ""}`}
+            className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 hover:bg-gray-50 ${
+              garmentType === "tops" ? "border-black bg-gray-50" : "border-gray-200 hover:border-gray-300"
+            }`}
             onClick={() => setGarmentType("tops")}
           >
-            <GarmentIllustration type="tops" selected={garmentType === "tops"} />
-            <p className="font-medium text-center mt-2">{t("shirtsBlazers")}</p>
+            <div className="flex items-center justify-center mb-3">
+              <img
+                src="/placeholder.svg?height=60&width=60&query=shirt and blazer icon"
+                alt={t("Shirts & Blazers")}
+                className="w-12 h-12 object-contain"
+              />
+            </div>
+            <div className={`text-center ${isRtl ? "text-right" : "text-left"}`}>
+              <h3 className="font-semibold text-base mb-1">{t("Shirts & Blazers")}</h3>
+              <p className="text-sm text-gray-600">{t("Shirts, Blouses, T-shirts, Blazers")}</p>
+            </div>
           </div>
 
+          {/* Bottoms & Pants */}
           <div
-            className={`flex flex-col items-center space-y-2 border rounded-lg p-4 hover:border-teal-500 transition-colors cursor-pointer ${garmentType === "bottoms" ? "border-teal-500 bg-teal-50" : ""}`}
+            className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 hover:bg-gray-50 ${
+              garmentType === "bottoms" ? "border-black bg-gray-50" : "border-gray-200 hover:border-gray-300"
+            }`}
             onClick={() => setGarmentType("bottoms")}
           >
-            <GarmentIllustration type="bottoms" selected={garmentType === "bottoms"} />
-            <p className="font-medium text-center mt-2">{t("bottomsPants")}</p>
+            <div className="flex items-center justify-center mb-3">
+              <img
+                src="/placeholder.svg?height=60&width=60&query=pants and bottoms icon"
+                alt={t("Bottoms & Pants")}
+                className="w-12 h-12 object-contain"
+              />
+            </div>
+            <div className={`text-center ${isRtl ? "text-right" : "text-left"}`}>
+              <h3 className="font-semibold text-base mb-1">{t("Bottoms & Pants")}</h3>
+              <p className="text-sm text-gray-600">{t("Pants, Skirts, Shorts, Trousers")}</p>
+            </div>
           </div>
 
+          {/* Dresses & Jumpsuits */}
           <div
-            className={`flex flex-col items-center space-y-2 border rounded-lg p-4 hover:border-teal-500 transition-colors cursor-pointer ${garmentType === "dresses" ? "border-teal-500 bg-teal-50" : ""}`}
+            className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 hover:bg-gray-50 ${
+              garmentType === "dresses" ? "border-black bg-gray-50" : "border-gray-200 hover:border-gray-300"
+            }`}
             onClick={() => setGarmentType("dresses")}
           >
-            <GarmentIllustration type="dresses" selected={garmentType === "dresses"} />
-            <p className="font-medium text-center mt-2">{t("dressesJumpsuits")}</p>
-          </div>
-        </div>
-
-        <div className="space-y-4">
-          {(garmentType === "tops" || garmentType === "dresses") && (
-            <div className="space-y-2">
-              <Label htmlFor="bust-measurement">{t("bust")} (cm) *</Label>
-              <Input
-                id="bust-measurement"
-                type="number"
-                placeholder="e.g., 90"
-                value={measurements.bust}
-                onChange={(e) => handleMeasurementChange("bust", e.target.value)}
-                required={garmentType === "tops"}
+            <div className="flex items-center justify-center mb-3">
+              <img
+                src="/placeholder.svg?height=60&width=60&query=dress and jumpsuit icon"
+                alt={t("Dresses & Jumpsuits")}
+                className="w-12 h-12 object-contain"
               />
             </div>
-          )}
-
-          {(garmentType === "bottoms" || garmentType === "dresses") && (
-            <div className="space-y-2">
-              <Label htmlFor="waist-measurement">{t("waist")} (cm) *</Label>
-              <Input
-                id="waist-measurement"
-                type="number"
-                placeholder="e.g., 72"
-                value={measurements.waist}
-                onChange={(e) => handleMeasurementChange("waist", e.target.value)}
-                required={garmentType === "bottoms"}
-              />
+            <div className={`text-center ${isRtl ? "text-right" : "text-left"}`}>
+              <h3 className="font-semibold text-base mb-1">{t("Dresses & Jumpsuits")}</h3>
+              <p className="text-sm text-gray-600">{t("Dresses, Jumpsuits, Rompers")}</p>
             </div>
-          )}
-
-          {(garmentType === "bottoms" || garmentType === "dresses") && (
-            <div className="space-y-2">
-              <Label htmlFor="hips-measurement">{t("hips")} (cm)</Label>
-              <Input
-                id="hips-measurement"
-                type="number"
-                placeholder="e.g., 98"
-                value={measurements.hips}
-                onChange={(e) => handleMeasurementChange("hips", e.target.value)}
-              />
-              <p className="text-xs text-gray-500">{t("optional")}</p>
-            </div>
-          )}
-        </div>
-
-        {(garmentType === "tops" || garmentType === "dresses") && (
-          <div className="space-y-2">
-            <Label>{t("fitPreference")}</Label>
-            <RadioGroup value={fitPreference} onValueChange={setFitPreference} className="space-y-2">
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="tight" id="tight-fit" />
-                <Label htmlFor="tight-fit">{t("tight")}</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="regular" id="regular-fit" />
-                <Label htmlFor="regular-fit">{t("regular")}</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="loose" id="loose-fit" />
-                <Label htmlFor="loose-fit">{t("loose")}</Label>
-              </div>
-            </RadioGroup>
           </div>
-        )}
-
-        <div className="flex justify-end mt-6">
-          <Button
-            onClick={calculateSize}
-            className="bg-teal-600 hover:bg-teal-700"
-            disabled={
-              (garmentType === "tops" && !measurements.bust) ||
-              (garmentType === "bottoms" && !measurements.waist) ||
-              (garmentType === "dresses" && !measurements.bust && !measurements.waist)
-            }
-          >
-            {t("getMySize")}
-            {!isRtl && <ArrowRight className="ml-2 h-4 w-4" />}
-            {isRtl && <ArrowLeft className="mr-2 h-4 w-4" />}
-          </Button>
         </div>
-      </div>
-    )
-  }
+      </CardContent>
+    </>
+  )
 
-  const renderResult = () => {
-    if (!sizeResult) return null
-
-    return (
-      <div className="space-y-6">
-        <div className="text-center">
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-teal-100 mb-4">
-            <Check className="h-10 w-10 text-teal-600" />
-          </div>
-          <h2 className="text-2xl font-bold">{t("yourRecommendedSize")}</h2>
-          <p className="text-gray-600 mt-1">
-            {garmentType === "tops"
-              ? t("shirtsBlazers")
-              : garmentType === "bottoms"
-                ? t("bottomsPants")
-                : t("dressesJumpsuits")}
+  const renderBustStep = () => (
+    <>
+      <CardHeader>
+        <CardTitle className={isRtl ? "text-right" : "text-left"}>{t("Bust Measurement")}</CardTitle>
+        <CardDescription className={isRtl ? "text-right" : "text-left"}>
+          {t("Select your bust measurement in centimeters")}
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <Select value={bust} onValueChange={setBust}>
+          <SelectTrigger>
+            <SelectValue placeholder={t("Select bust measurement")} />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="82">&lt; 84 cm</SelectItem>
+            <SelectItem value="84">84-86 cm</SelectItem>
+            <SelectItem value="88">87-90 cm</SelectItem>
+            <SelectItem value="92">91-94 cm</SelectItem>
+            <SelectItem value="96">95-98 cm</SelectItem>
+            <SelectItem value="100">99-102 cm</SelectItem>
+            <SelectItem value="104">103-106 cm</SelectItem>
+            <SelectItem value="108">&gt; 106 cm</SelectItem>
+          </SelectContent>
+        </Select>
+        <div className="mt-4 text-sm text-gray-500">
+          <p className={isRtl ? "text-right" : "text-left"}>
+            {t("Measure around the fullest part of your bust, keeping the tape measure parallel to the floor.")}
           </p>
         </div>
+      </CardContent>
+    </>
+  )
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-          <Card className="border-teal-100 shadow-md">
-            <CardContent className="pt-6">
-              <div className="flex justify-between items-center mb-2">
-                <h3 className="text-lg font-semibold">{t("popularChoice")}</h3>
-                <Badge className="bg-teal-500">{sizeResult.popularity}%</Badge>
-              </div>
-              <Progress value={sizeResult.popularity} className="h-2 mb-4 bg-neutral-200" />
-
-              <div className="grid grid-cols-2 gap-4">
-                <div className="text-center p-3 bg-teal-50 rounded-lg">
-                  <h3 className="text-3xl font-bold text-teal-600">{sizeResult.collarAndBowSize}</h3>
-                  <p className="text-sm text-gray-500 mt-1">{t("size")}</p>
-                </div>
-                <div className="text-center p-3 bg-neutral-100 rounded-lg">
-                  <h3 className="text-xl font-bold">{sizeResult.usSize}</h3>
-                  <p className="text-sm text-gray-500 mt-1">{t("usSize")}</p>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4 mt-4">
-                <div className="text-center p-3 bg-neutral-100 rounded-lg">
-                  <h3 className="text-xl font-bold">{sizeResult.ukSize}</h3>
-                  <p className="text-sm text-gray-500 mt-1">{t("ukSize")}</p>
-                </div>
-                <div className="text-center p-3 bg-neutral-100 rounded-lg">
-                  <h3 className="text-xl font-bold">{sizeResult.euSize}</h3>
-                  <p className="text-sm text-gray-500 mt-1">{t("euSize")}</p>
-                </div>
-              </div>
-
-              <p className="text-sm text-gray-600 mt-4 text-center">
-                {sizeResult.popularity}% {t("ofCustomers")}
-              </p>
-            </CardContent>
-          </Card>
-
-          {sizeResult.alternativeSize && (
-            <Card>
-              <CardContent className="pt-6">
-                <div className="flex justify-between items-center mb-2">
-                  <h3 className="text-lg font-semibold">{t("alternativeSize")}</h3>
-                  <Badge variant="outline">{sizeResult.alternativePopularity}%</Badge>
-                </div>
-                <Progress value={sizeResult.alternativePopularity || 0} className="h-2 mb-4 bg-neutral-200" />
-
-                <div className="grid grid-cols-1 gap-4">
-                  <div className="text-center p-3 bg-neutral-100 rounded-lg">
-                    <h3 className="text-2xl font-bold text-gray-600">{sizeResult.alternativeSize}</h3>
-                    <p className="text-sm text-gray-500 mt-1">{t("size")}</p>
-                  </div>
-                </div>
-
-                <p className="text-sm text-gray-600 mt-4 text-center">
-                  {sizeResult.alternativePopularity}% {t("ofCustomers")}
-                </p>
-              </CardContent>
-            </Card>
-          )}
+  const renderWaistStep = () => (
+    <>
+      <CardHeader>
+        <CardTitle className={isRtl ? "text-right" : "text-left"}>{t("Waist Measurement")}</CardTitle>
+        <CardDescription className={isRtl ? "text-right" : "text-left"}>
+          {t("Select your waist measurement in centimeters")}
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <Select value={waist} onValueChange={setWaist}>
+          <SelectTrigger>
+            <SelectValue placeholder={t("Select waist measurement")} />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="62">&lt; 64 cm</SelectItem>
+            <SelectItem value="64">64-68 cm</SelectItem>
+            <SelectItem value="70">69-72 cm</SelectItem>
+            <SelectItem value="74">73-76 cm</SelectItem>
+            <SelectItem value="78">77-80 cm</SelectItem>
+            <SelectItem value="82">81-84 cm</SelectItem>
+            <SelectItem value="86">85-88 cm</SelectItem>
+            <SelectItem value="90">&gt; 88 cm</SelectItem>
+          </SelectContent>
+        </Select>
+        <div className="mt-4 text-sm text-gray-500">
+          <p className={isRtl ? "text-right" : "text-left"}>
+            {t(
+              "Measure around your natural waistline, which is the narrowest part of your torso, usually just above your belly button.",
+            )}
+          </p>
         </div>
+      </CardContent>
+    </>
+  )
 
-        <div className="bg-teal-50 p-4 rounded-lg mt-6">
-          <div className="flex items-start gap-3">
-            <Ruler className="h-5 w-5 text-teal-600 mt-0.5 flex-shrink-0" />
-            <div>
-              <h3 className="font-medium">{t("sizingTip")}</h3>
-              <p className="text-sm text-gray-700 mt-1">{t("sizingTipText")}</p>
+  const renderHipsStep = () => (
+    <>
+      <CardHeader>
+        <CardTitle className={isRtl ? "text-right" : "text-left"}>{t("Hips Measurement")}</CardTitle>
+        <CardDescription className={isRtl ? "text-right" : "text-left"}>
+          {t("Select your hips measurement in centimeters")}
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <Select value={hips} onValueChange={setHips}>
+          <SelectTrigger>
+            <SelectValue placeholder={t("Select hips measurement")} />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="88">&lt; 90 cm</SelectItem>
+            <SelectItem value="90">90-94 cm</SelectItem>
+            <SelectItem value="94">95-98 cm</SelectItem>
+            <SelectItem value="98">99-102 cm</SelectItem>
+            <SelectItem value="102">103-106 cm</SelectItem>
+            <SelectItem value="106">107-110 cm</SelectItem>
+            <SelectItem value="110">111-114 cm</SelectItem>
+            <SelectItem value="114">&gt; 114 cm</SelectItem>
+          </SelectContent>
+        </Select>
+        <div className="mt-4 text-sm text-gray-500">
+          <p className={isRtl ? "text-right" : "text-left"}>
+            {t("Measure around the fullest part of your hips, usually about 8 inches below your waistline.")}
+          </p>
+        </div>
+      </CardContent>
+    </>
+  )
+
+  const renderBodyShapeStep = () => (
+    <>
+      <CardHeader>
+        <CardTitle className={isRtl ? "text-right" : "text-left"}>{t("Body Shape")}</CardTitle>
+        <CardDescription className={isRtl ? "text-right" : "text-left"}>
+          {t("Select the option that best describes your body shape")}
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-3">
+          <div
+            className={`flex items-center p-3 rounded-lg border hover:bg-gray-50 cursor-pointer transition-colors ${
+              bodyShape === "straighter" ? "bg-blue-50 border-blue-200" : "border-gray-200"
+            } ${isRtl ? "flex-row-reverse" : ""}`}
+            onClick={() => setBodyShape("straighter")}
+          >
+            <input
+              type="radio"
+              name="bodyShape"
+              id="body-shape-1"
+              value="straighter"
+              checked={bodyShape === "straighter"}
+              onChange={() => setBodyShape("straighter")}
+              className={`form-radio w-4 h-4 accent-black ${isRtl ? "ml-3" : "mr-3"}`}
+            />
+            <div
+              className={`flex items-center flex-1 ${isRtl ? "flex-row-reverse space-x-reverse space-x-3" : "space-x-3"}`}
+            >
+              <BodyShapeImage type="straighter" selected={bodyShape === "straighter"} bodyPart="hip" />
+              <Label htmlFor="body-shape-1" className={`cursor-pointer text-sm ${isRtl ? "text-right" : "text-left"}`}>
+                {t("Straighter Hips")} - {t("Less defined curves, more athletic build")}
+              </Label>
+            </div>
+          </div>
+          <div
+            className={`flex items-center p-3 rounded-lg border hover:bg-gray-50 cursor-pointer transition-colors ${
+              bodyShape === "average" ? "bg-blue-50 border-blue-200" : "border-gray-200"
+            } ${isRtl ? "flex-row-reverse" : ""}`}
+            onClick={() => setBodyShape("average")}
+          >
+            <input
+              type="radio"
+              name="bodyShape"
+              id="body-shape-2"
+              value="average"
+              checked={bodyShape === "average"}
+              onChange={() => setBodyShape("average")}
+              className={`form-radio w-4 h-4 accent-black ${isRtl ? "ml-3" : "mr-3"}`}
+            />
+            <div
+              className={`flex items-center flex-1 ${isRtl ? "flex-row-reverse space-x-reverse space-x-3" : "space-x-3"}`}
+            >
+              <BodyShapeImage type="average" selected={bodyShape === "average"} bodyPart="hip" />
+              <Label htmlFor="body-shape-2" className={`cursor-pointer text-sm ${isRtl ? "text-right" : "text-left"}`}>
+                {t("Average Hips")} - {t("Balanced proportions")}
+              </Label>
+            </div>
+          </div>
+          <div
+            className={`flex items-center p-3 rounded-lg border hover:bg-gray-50 cursor-pointer transition-colors ${
+              bodyShape === "wider" ? "bg-blue-50 border-blue-200" : "border-gray-200"
+            } ${isRtl ? "flex-row-reverse" : ""}`}
+            onClick={() => setBodyShape("wider")}
+          >
+            <input
+              type="radio"
+              name="bodyShape"
+              id="body-shape-3"
+              value="wider"
+              checked={bodyShape === "wider"}
+              onChange={() => setBodyShape("wider")}
+              className={`form-radio w-4 h-4 accent-black ${isRtl ? "ml-3" : "mr-3"}`}
+            />
+            <div
+              className={`flex items-center flex-1 ${isRtl ? "flex-row-reverse space-x-reverse space-x-3" : "space-x-3"}`}
+            >
+              <BodyShapeImage type="wider" selected={bodyShape === "wider"} bodyPart="hip" />
+              <Label htmlFor="body-shape-3" className={`cursor-pointer text-sm ${isRtl ? "text-right" : "text-left"}`}>
+                {t("Wider Hips")} - {t("More defined waist-to-hip ratio")}
+              </Label>
             </div>
           </div>
         </div>
+      </CardContent>
+    </>
+  )
 
-        <div className="flex justify-center mt-6">
-          <Button
-            variant="outline"
-            onClick={() => {
-              setShowResult(false)
-            }}
+  const renderFitPreferenceStep = () => (
+    <>
+      <CardHeader>
+        <CardTitle className={isRtl ? "text-right" : "text-left"}>{t("Fit Preference")}</CardTitle>
+        <CardDescription className={isRtl ? "text-right" : "text-left"}>
+          {t("How do you prefer your clothes to fit?")}
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-3">
+          <div
+            className={`flex items-center p-3 rounded-lg border hover:bg-gray-50 cursor-pointer transition-colors ${
+              fitPreference === "slim" ? "bg-blue-50 border-blue-200" : "border-gray-200"
+            } ${isRtl ? "flex-row-reverse" : ""}`}
+            onClick={() => setFitPreference("slim")}
           >
-            {t("startOver")}
-          </Button>
+            <input
+              type="radio"
+              name="fitPreference"
+              id="fit-1"
+              value="slim"
+              checked={fitPreference === "slim"}
+              onChange={() => setFitPreference("slim")}
+              className={`form-radio w-4 h-4 accent-black ${isRtl ? "ml-3" : "mr-3"}`}
+            />
+            <Label htmlFor="fit-1" className={`flex-1 cursor-pointer text-sm ${isRtl ? "text-right" : "text-left"}`}>
+              {t("Slim Fit")} - {t("Fitted, close to body")}
+            </Label>
+          </div>
+          <div
+            className={`flex items-center p-3 rounded-lg border hover:bg-gray-50 cursor-pointer transition-colors ${
+              fitPreference === "regular" ? "bg-blue-50 border-blue-200" : "border-gray-200"
+            } ${isRtl ? "flex-row-reverse" : ""}`}
+            onClick={() => setFitPreference("regular")}
+          >
+            <input
+              type="radio"
+              name="fitPreference"
+              id="fit-2"
+              value="regular"
+              checked={fitPreference === "regular"}
+              onChange={() => setFitPreference("regular")}
+              className={`form-radio w-4 h-4 accent-black ${isRtl ? "ml-3" : "mr-3"}`}
+            />
+            <Label htmlFor="fit-2" className={`flex-1 cursor-pointer text-sm ${isRtl ? "text-right" : "text-left"}`}>
+              {t("Regular Fit")} - {t("Standard, not too tight or loose")}
+            </Label>
+          </div>
+          <div
+            className={`flex items-center p-3 rounded-lg border hover:bg-gray-50 cursor-pointer transition-colors ${
+              fitPreference === "loose" ? "bg-blue-50 border-blue-200" : "border-gray-200"
+            } ${isRtl ? "flex-row-reverse" : ""}`}
+            onClick={() => setFitPreference("loose")}
+          >
+            <input
+              type="radio"
+              name="fitPreference"
+              id="fit-3"
+              value="loose"
+              checked={fitPreference === "loose"}
+              onChange={() => setFitPreference("loose")}
+              className={`form-radio w-4 h-4 accent-black ${isRtl ? "ml-3" : "mr-3"}`}
+            />
+            <Label htmlFor="fit-3" className={`flex-1 cursor-pointer text-sm ${isRtl ? "text-right" : "text-left"}`}>
+              {t("Loose Fit")} - {t("Relaxed, roomier")}
+            </Label>
+          </div>
         </div>
-      </div>
-    )
-  }
+      </CardContent>
+    </>
+  )
+
+  const renderResult = () => (
+    <>
+      <CardHeader>
+        <CardTitle className={isRtl ? "text-center" : "text-center"}>{t("Your Recommended Size")}</CardTitle>
+        <CardDescription className={isRtl ? "text-center" : "text-center"}>
+          {t("Based on your measurements and preferences")}
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="text-center">
+        <div className="text-5xl font-bold mb-4">{result}</div>
+        <div className="text-sm text-gray-600 mb-6 space-y-2">
+          {resultDetails.map((detail, index) => (
+            <p key={index} className={isRtl ? "text-center" : "text-center"}>
+              {detail}
+            </p>
+          ))}
+        </div>
+        <div className="mt-6">
+          <SocialShare />
+        </div>
+      </CardContent>
+    </>
+  )
 
   return (
-    <Card className="border-teal-100">
-      <CardContent className="pt-6">
-        <h2 className="text-xl font-semibold mb-4">{t("quickSizeFinder")}</h2>
-        {!showResult ? renderMeasurementForm() : renderResult()}
-      </CardContent>
+    <Card className="w-full max-w-md mx-auto">
+      {step === 1 && renderGarmentTypeStep()}
+      {step === 2 && renderBustStep()}
+      {step === 3 && renderWaistStep()}
+      {step === 4 && renderHipsStep()}
+      {step === 5 && renderBodyShapeStep()}
+      {step === 6 && renderFitPreferenceStep()}
+      {result && renderResult()}
+
+      {!result && (
+        <CardFooter className="flex justify-between">
+          <Button variant="outline" onClick={handleBack} disabled={step === 1}>
+            {t("Back")}
+          </Button>
+          <Button
+            onClick={handleNext}
+            disabled={
+              (step === 1 && !garmentType) ||
+              (step === 2 && !bust) ||
+              (step === 3 && !waist) ||
+              (step === 4 && !hips) ||
+              (step === 5 && !bodyShape) ||
+              (step === 6 && !fitPreference)
+            }
+          >
+            {step === 6 ? t("Find My Size") : t("Next")}
+          </Button>
+        </CardFooter>
+      )}
     </Card>
   )
 }
+
+export default GarmentSpecificFinder

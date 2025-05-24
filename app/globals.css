@@ -81,8 +81,169 @@
   }
 }
 
+/* Remove all focus outlines and tap highlights */
+* {
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+*:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Enhanced RTL Support */
+[dir="rtl"] {
+  text-align: right;
+  direction: rtl;
+}
+
 [dir="rtl"] .rtl-mirror {
   transform: scaleX(-1);
+}
+
+/* RTL Flex Direction Fixes */
+[dir="rtl"] .flex:not(.flex-col):not(.flex-row-reverse) {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .flex-row {
+  flex-direction: row-reverse;
+}
+
+/* RTL Space Fixes */
+[dir="rtl"] .space-x-2 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 1;
+  margin-right: calc(0.5rem * var(--tw-space-x-reverse));
+  margin-left: calc(0.5rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
+[dir="rtl"] .space-x-3 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 1;
+  margin-right: calc(0.75rem * var(--tw-space-x-reverse));
+  margin-left: calc(0.75rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
+[dir="rtl"] .space-x-4 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 1;
+  margin-right: calc(1rem * var(--tw-space-x-reverse));
+  margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
+/* RTL Text Alignment */
+[dir="rtl"] .text-left {
+  text-align: right;
+}
+
+[dir="rtl"] .text-right {
+  text-align: left;
+}
+
+/* RTL Margin and Padding Fixes */
+[dir="rtl"] .ml-2 {
+  margin-left: 0;
+  margin-right: 0.5rem;
+}
+
+[dir="rtl"] .ml-3 {
+  margin-left: 0;
+  margin-right: 0.75rem;
+}
+
+[dir="rtl"] .mr-2 {
+  margin-right: 0;
+  margin-left: 0.5rem;
+}
+
+[dir="rtl"] .mr-3 {
+  margin-right: 0;
+  margin-left: 0.75rem;
+}
+
+[dir="rtl"] .pl-2 {
+  padding-left: 0;
+  padding-right: 0.5rem;
+}
+
+[dir="rtl"] .pl-3 {
+  padding-left: 0;
+  padding-right: 0.75rem;
+}
+
+[dir="rtl"] .pr-2 {
+  padding-right: 0;
+  padding-left: 0.5rem;
+}
+
+[dir="rtl"] .pr-3 {
+  padding-right: 0;
+  padding-left: 0.75rem;
+}
+
+/* RTL List Styling */
+[dir="rtl"] ul {
+  padding-right: 1.5rem;
+  padding-left: 0;
+}
+
+[dir="rtl"] ol {
+  padding-right: 1.5rem;
+  padding-left: 0;
+}
+
+[dir="rtl"] li {
+  text-align: right;
+}
+
+/* RTL Bullet Points */
+[dir="rtl"] ul li::marker {
+  unicode-bidi: isolate;
+  direction: rtl;
+}
+
+[dir="rtl"] ul li {
+  list-style-position: inside;
+  text-align: right;
+}
+
+/* Custom RTL bullet points */
+[dir="rtl"] .custom-bullet {
+  position: relative;
+  padding-right: 1rem;
+  padding-left: 0;
+}
+
+[dir="rtl"] .custom-bullet::before {
+  content: "•";
+  position: absolute;
+  right: 0;
+  color: currentColor;
+}
+
+/* Arabic Font Support */
+.font-arabic {
+  font-family: "Noto Sans Arabic", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+[dir="rtl"] {
+  font-family: "Noto Sans Arabic", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Native Radio Button Styling */
+@layer utilities {
+  .form-radio {
+    @apply appearance-none rounded-full border border-gray-300 checked:border-black checked:bg-black checked:border-transparent focus:outline-none focus:ring-0;
+  }
+
+  .form-radio:checked {
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3ccircle cx='8' cy='8' r='3'/%3e%3c/svg%3e");
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
 }
 
 /* Custom styles for tabs on mobile */
@@ -102,6 +263,11 @@
     line-height: 1.2 !important;
     min-height: 4rem !important;
   }
+
+  /* RTL adjustments for mobile tabs */
+  [dir="rtl"] [role="tab"] {
+    text-align: center !important;
+  }
 }
 
 /* Custom styles for table cells */
@@ -113,4 +279,168 @@
 
 .table-cell-range span {
   margin: 0 0.5rem;
+}
+
+/* Enhanced mobile typography */
+@media (max-width: 768px) {
+  .text-2xl {
+    font-size: 1.375rem !important;
+    line-height: 1.75rem !important;
+  }
+
+  .text-xl {
+    font-size: 1.125rem !important;
+    line-height: 1.5rem !important;
+  }
+
+  .text-lg {
+    font-size: 1rem !important;
+    line-height: 1.375rem !important;
+  }
+
+  .text-base {
+    font-size: 0.875rem !important;
+    line-height: 1.25rem !important;
+  }
+
+  .text-sm {
+    font-size: 0.8125rem !important;
+    line-height: 1.125rem !important;
+  }
+}
+
+/* Enhanced mobile spacing */
+@media (max-width: 640px) {
+  .space-y-6 > :not([hidden]) ~ :not([hidden]) {
+    margin-top: 1rem !important;
+  }
+
+  .space-y-4 > :not([hidden]) ~ :not([hidden]) {
+    margin-top: 0.75rem !important;
+  }
+
+  .space-y-3 > :not([hidden]) ~ :not([hidden]) {
+    margin-top: 0.5rem !important;
+  }
+
+  .space-y-2 > :not([hidden]) ~ :not([hidden]) {
+    margin-top: 0.375rem !important;
+  }
+}
+
+/* Better mobile padding and margins */
+@media (max-width: 768px) {
+  .container {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  .p-6 {
+    padding: 1rem !important;
+  }
+
+  .p-4 {
+    padding: 0.75rem !important;
+  }
+
+  .px-6 {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  .py-6 {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+  }
+
+  .mb-6 {
+    margin-bottom: 1rem !important;
+  }
+
+  .mb-4 {
+    margin-bottom: 0.75rem !important;
+  }
+}
+
+/* Enhanced button styling for mobile */
+@media (max-width: 640px) {
+  button,
+  [role="button"] {
+    min-height: 44px !important;
+    padding: 0.75rem 1rem !important;
+    font-size: 0.875rem !important;
+  }
+
+  .btn-sm {
+    min-height: 36px !important;
+    padding: 0.5rem 0.75rem !important;
+    font-size: 0.8125rem !important;
+  }
+}
+
+/* Better form input styling for mobile */
+@media (max-width: 640px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px !important; /* Prevents zoom on iOS */
+    padding: 0.75rem !important;
+    border-radius: 0.5rem !important;
+  }
+
+  input[type="number"] {
+    font-size: 16px !important;
+  }
+
+  /* Mobile radio button adjustments */
+  .form-radio {
+    width: 1rem !important;
+    height: 1rem !important;
+  }
+}
+
+/* Enhanced table responsiveness */
+@media (max-width: 640px) {
+  .fit-table {
+    font-size: 0.75rem !important;
+    overflow-x: auto !important;
+  }
+
+  .fit-table th,
+  .fit-table td {
+    padding: 0.375rem 0.25rem !important;
+    white-space: nowrap !important;
+  }
+
+  .fit-table th {
+    font-size: 0.6875rem !important;
+  }
+}
+
+/* High contrast mode enhancements */
+@media (prefers-contrast: high) {
+  input[type="radio"] {
+    border-width: 3px !important;
+    border-color: #000 !important;
+  }
+
+  input[type="radio"]:checked {
+    background-color: #000 !important;
+  }
+
+  .text-gray-600 {
+    color: rgb(0 0 0) !important;
+  }
+
+  .text-gray-500 {
+    color: rgb(0 0 0) !important;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
 }

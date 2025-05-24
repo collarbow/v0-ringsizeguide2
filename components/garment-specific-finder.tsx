@@ -121,123 +121,50 @@ export function GarmentSpecificFinder({ onComplete }: GarmentSpecificFinderProps
   const renderGarmentTypeStep = () => (
     <>
       <CardHeader>
-        <CardTitle className={isRtl ? "text-right" : "text-left"}>{t("Select Garment Type")}</CardTitle>
-        <CardDescription className={isRtl ? "text-right" : "text-left"}>
+        <CardTitle className={`text-center ${isRtl ? "text-right" : "text-left"}`}>
+          {t("Garment Type Question")}
+        </CardTitle>
+        <CardDescription className={`text-center ${isRtl ? "text-right" : "text-left"}`}>
           {t("Choose the type of garment you're looking to size")}
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <div className="space-y-4">
-          {/* Shirts & Blazers */}
-          <div
-            className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 hover:bg-gray-50 hover:shadow-md ${
-              garmentType === "tops" ? "border-black bg-gray-50 shadow-md" : "border-gray-200 hover:border-gray-300"
-            }`}
+      <CardContent className="space-y-4">
+        <div className="space-y-3">
+          {/* Tops Option */}
+          <Button
+            variant={garmentType === "tops" ? "default" : "outline"}
+            className={`w-full h-auto p-4 ${isRtl ? "text-right" : "text-left"}`}
             onClick={() => setGarmentType("tops")}
           >
-            <div className={`flex items-start ${isRtl ? "flex-row-reverse" : ""} gap-3`}>
-              <input
-                type="radio"
-                name="garmentType"
-                id="garment-tops"
-                value="tops"
-                checked={garmentType === "tops"}
-                onChange={() => setGarmentType("tops")}
-                className={`form-radio accent-black mt-1 flex-shrink-0 w-4 h-4 sm:w-5 sm:h-5`}
-              />
-              <div className="flex-1">
-                <div className="flex items-center justify-center mb-3">
-                  <img
-                    src="/placeholder.svg?height=60&width=60&query=shirt and blazer icon"
-                    alt={t("Shirts & Blazers")}
-                    className="w-12 h-12 object-contain"
-                  />
-                </div>
-                <div className="text-center">
-                  <h3 className={`font-semibold text-base mb-1 ${isRtl ? "text-right" : "text-left"}`}>
-                    {t("Shirts & Blazers")}
-                  </h3>
-                  <p className={`text-sm text-gray-600 ${isRtl ? "text-right" : "text-left"}`}>
-                    {t("Shirts, Blouses, T-shirts, Blazers")}
-                  </p>
-                </div>
-              </div>
+            <div className="flex flex-col items-center space-y-2">
+              <span className="font-semibold text-base">{t("Shirts & Blazers")}</span>
+              <span className="text-sm opacity-80">{t("Shirts, Blouses, T-shirts")}</span>
             </div>
-          </div>
+          </Button>
 
-          {/* Bottoms & Pants */}
-          <div
-            className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 hover:bg-gray-50 hover:shadow-md ${
-              garmentType === "bottoms" ? "border-black bg-gray-50 shadow-md" : "border-gray-200 hover:border-gray-300"
-            }`}
+          {/* Bottoms Option */}
+          <Button
+            variant={garmentType === "bottoms" ? "default" : "outline"}
+            className={`w-full h-auto p-4 ${isRtl ? "text-right" : "text-left"}`}
             onClick={() => setGarmentType("bottoms")}
           >
-            <div className={`flex items-start ${isRtl ? "flex-row-reverse" : ""} gap-3`}>
-              <input
-                type="radio"
-                name="garmentType"
-                id="garment-bottoms"
-                value="bottoms"
-                checked={garmentType === "bottoms"}
-                onChange={() => setGarmentType("bottoms")}
-                className={`form-radio accent-black mt-1 flex-shrink-0 w-4 h-4 sm:w-5 sm:h-5`}
-              />
-              <div className="flex-1">
-                <div className="flex items-center justify-center mb-3">
-                  <img
-                    src="/placeholder.svg?height=60&width=60&query=pants and bottoms icon"
-                    alt={t("Bottoms & Pants")}
-                    className="w-12 h-12 object-contain"
-                  />
-                </div>
-                <div className="text-center">
-                  <h3 className={`font-semibold text-base mb-1 ${isRtl ? "text-right" : "text-left"}`}>
-                    {t("Bottoms & Pants")}
-                  </h3>
-                  <p className={`text-sm text-gray-600 ${isRtl ? "text-right" : "text-left"}`}>
-                    {t("Pants, Skirts, Shorts, Trousers")}
-                  </p>
-                </div>
-              </div>
+            <div className="flex flex-col items-center space-y-2">
+              <span className="font-semibold text-base">{t("Bottoms & Pants")}</span>
+              <span className="text-sm opacity-80">{t("Pants, Skirts, Shorts")}</span>
             </div>
-          </div>
+          </Button>
 
-          {/* Dresses & Jumpsuits */}
-          <div
-            className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 hover:bg-gray-50 hover:shadow-md ${
-              garmentType === "dresses" ? "border-black bg-gray-50 shadow-md" : "border-gray-200 hover:border-gray-300"
-            }`}
+          {/* Dresses Option */}
+          <Button
+            variant={garmentType === "dresses" ? "default" : "outline"}
+            className={`w-full h-auto p-4 ${isRtl ? "text-right" : "text-left"}`}
             onClick={() => setGarmentType("dresses")}
           >
-            <div className={`flex items-start ${isRtl ? "flex-row-reverse" : ""} gap-3`}>
-              <input
-                type="radio"
-                name="garmentType"
-                id="garment-dresses"
-                value="dresses"
-                checked={garmentType === "dresses"}
-                onChange={() => setGarmentType("dresses")}
-                className={`form-radio accent-black mt-1 flex-shrink-0 w-4 h-4 sm:w-5 sm:h-5`}
-              />
-              <div className="flex-1">
-                <div className="flex items-center justify-center mb-3">
-                  <img
-                    src="/placeholder.svg?height=60&width=60&query=dress and jumpsuit icon"
-                    alt={t("Dresses & Jumpsuits")}
-                    className="w-12 h-12 object-contain"
-                  />
-                </div>
-                <div className="text-center">
-                  <h3 className={`font-semibold text-base mb-1 ${isRtl ? "text-right" : "text-left"}`}>
-                    {t("Dresses & Jumpsuits")}
-                  </h3>
-                  <p className={`text-sm text-gray-600 ${isRtl ? "text-right" : "text-left"}`}>
-                    {t("Dresses, Jumpsuits, Rompers")}
-                  </p>
-                </div>
-              </div>
+            <div className="flex flex-col items-center space-y-2">
+              <span className="font-semibold text-base">{t("Dresses & Jumpsuits")}</span>
+              <span className="text-sm opacity-80">{t("Dresses, Jumpsuits")}</span>
             </div>
-          </div>
+          </Button>
         </div>
       </CardContent>
     </>

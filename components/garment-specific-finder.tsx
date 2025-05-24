@@ -143,7 +143,7 @@ export function GarmentSpecificFinder({ onComplete }: GarmentSpecificFinderProps
                 value="tops"
                 checked={garmentType === "tops"}
                 onChange={() => setGarmentType("tops")}
-                className={`form-radio w-4 h-4 accent-black mt-1 flex-shrink-0`}
+                className={`form-radio accent-black mt-1 flex-shrink-0 w-4 h-4 sm:w-5 sm:h-5`}
               />
               <div className="flex-1">
                 <div className="flex items-center justify-center mb-3">
@@ -180,7 +180,7 @@ export function GarmentSpecificFinder({ onComplete }: GarmentSpecificFinderProps
                 value="bottoms"
                 checked={garmentType === "bottoms"}
                 onChange={() => setGarmentType("bottoms")}
-                className={`form-radio w-4 h-4 accent-black mt-1 flex-shrink-0`}
+                className={`form-radio accent-black mt-1 flex-shrink-0 w-4 h-4 sm:w-5 sm:h-5`}
               />
               <div className="flex-1">
                 <div className="flex items-center justify-center mb-3">
@@ -217,7 +217,7 @@ export function GarmentSpecificFinder({ onComplete }: GarmentSpecificFinderProps
                 value="dresses"
                 checked={garmentType === "dresses"}
                 onChange={() => setGarmentType("dresses")}
-                className={`form-radio w-4 h-4 accent-black mt-1 flex-shrink-0`}
+                className={`form-radio accent-black mt-1 flex-shrink-0 w-4 h-4 sm:w-5 sm:h-5`}
               />
               <div className="flex-1">
                 <div className="flex items-center justify-center mb-3">

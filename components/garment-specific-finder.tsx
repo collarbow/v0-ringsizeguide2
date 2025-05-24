@@ -121,10 +121,10 @@ export function GarmentSpecificFinder({ onComplete }: GarmentSpecificFinderProps
   const renderGarmentTypeStep = () => (
     <>
       <CardHeader>
-        <CardTitle className={`text-center ${isRtl ? "text-right" : "text-left"}`}>
-          {t("Garment Type Question")}
+        <CardTitle className={isRtl ? "text-right" : "text-left"}>
+          {t("What type of garment are you shopping for?")}
         </CardTitle>
-        <CardDescription className={`text-center ${isRtl ? "text-right" : "text-left"}`}>
+        <CardDescription className={isRtl ? "text-right" : "text-left"}>
           {t("Choose the type of garment you're looking to size")}
         </CardDescription>
       </CardHeader>

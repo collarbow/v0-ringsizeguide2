@@ -128,32 +128,6 @@ export function GarmentSpecificFinder({ onComplete }: GarmentSpecificFinderProps
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          {/* Hidden radio inputs for form validation */}
-          <input
-            type="radio"
-            name="garmentType"
-            value="tops"
-            checked={garmentType === "tops"}
-            onChange={() => {}}
-            className="sr-only"
-          />
-          <input
-            type="radio"
-            name="garmentType"
-            value="bottoms"
-            checked={garmentType === "bottoms"}
-            onChange={() => {}}
-            className="sr-only"
-          />
-          <input
-            type="radio"
-            name="garmentType"
-            value="dresses"
-            checked={garmentType === "dresses"}
-            onChange={() => {}}
-            className="sr-only"
-          />
-
           {/* Shirts & Blazers */}
           <div
             className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 hover:bg-gray-50 hover:shadow-md ${
@@ -161,20 +135,33 @@ export function GarmentSpecificFinder({ onComplete }: GarmentSpecificFinderProps
             }`}
             onClick={() => setGarmentType("tops")}
           >
-            <div className="flex items-center justify-center mb-3">
-              <img
-                src="/placeholder.svg?height=60&width=60&query=shirt and blazer icon"
-                alt={t("Shirts & Blazers")}
-                className="w-12 h-12 object-contain"
+            <div className={`flex items-start ${isRtl ? "flex-row-reverse" : ""} gap-3`}>
+              <input
+                type="radio"
+                name="garmentType"
+                id="garment-tops"
+                value="tops"
+                checked={garmentType === "tops"}
+                onChange={() => setGarmentType("tops")}
+                className={`form-radio w-4 h-4 accent-black mt-1 flex-shrink-0`}
               />
-            </div>
-            <div className="text-center">
-              <h3 className={`font-semibold text-base mb-1 ${isRtl ? "text-right" : "text-left"}`}>
-                {t("Shirts & Blazers")}
-              </h3>
-              <p className={`text-sm text-gray-600 ${isRtl ? "text-right" : "text-left"}`}>
-                {t("Shirts, Blouses, T-shirts, Blazers")}
-              </p>
+              <div className="flex-1">
+                <div className="flex items-center justify-center mb-3">
+                  <img
+                    src="/placeholder.svg?height=60&width=60&query=shirt and blazer icon"
+                    alt={t("Shirts & Blazers")}
+                    className="w-12 h-12 object-contain"
+                  />
+                </div>
+                <div className="text-center">
+                  <h3 className={`font-semibold text-base mb-1 ${isRtl ? "text-right" : "text-left"}`}>
+                    {t("Shirts & Blazers")}
+                  </h3>
+                  <p className={`text-sm text-gray-600 ${isRtl ? "text-right" : "text-left"}`}>
+                    {t("Shirts, Blouses, T-shirts, Blazers")}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -185,20 +172,33 @@ export function GarmentSpecificFinder({ onComplete }: GarmentSpecificFinderProps
             }`}
             onClick={() => setGarmentType("bottoms")}
           >
-            <div className="flex items-center justify-center mb-3">
-              <img
-                src="/placeholder.svg?height=60&width=60&query=pants and bottoms icon"
-                alt={t("Bottoms & Pants")}
-                className="w-12 h-12 object-contain"
+            <div className={`flex items-start ${isRtl ? "flex-row-reverse" : ""} gap-3`}>
+              <input
+                type="radio"
+                name="garmentType"
+                id="garment-bottoms"
+                value="bottoms"
+                checked={garmentType === "bottoms"}
+                onChange={() => setGarmentType("bottoms")}
+                className={`form-radio w-4 h-4 accent-black mt-1 flex-shrink-0`}
               />
-            </div>
-            <div className="text-center">
-              <h3 className={`font-semibold text-base mb-1 ${isRtl ? "text-right" : "text-left"}`}>
-                {t("Bottoms & Pants")}
-              </h3>
-              <p className={`text-sm text-gray-600 ${isRtl ? "text-right" : "text-left"}`}>
-                {t("Pants, Skirts, Shorts, Trousers")}
-              </p>
+              <div className="flex-1">
+                <div className="flex items-center justify-center mb-3">
+                  <img
+                    src="/placeholder.svg?height=60&width=60&query=pants and bottoms icon"
+                    alt={t("Bottoms & Pants")}
+                    className="w-12 h-12 object-contain"
+                  />
+                </div>
+                <div className="text-center">
+                  <h3 className={`font-semibold text-base mb-1 ${isRtl ? "text-right" : "text-left"}`}>
+                    {t("Bottoms & Pants")}
+                  </h3>
+                  <p className={`text-sm text-gray-600 ${isRtl ? "text-right" : "text-left"}`}>
+                    {t("Pants, Skirts, Shorts, Trousers")}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -209,20 +209,33 @@ export function GarmentSpecificFinder({ onComplete }: GarmentSpecificFinderProps
             }`}
             onClick={() => setGarmentType("dresses")}
           >
-            <div className="flex items-center justify-center mb-3">
-              <img
-                src="/placeholder.svg?height=60&width=60&query=dress and jumpsuit icon"
-                alt={t("Dresses & Jumpsuits")}
-                className="w-12 h-12 object-contain"
+            <div className={`flex items-start ${isRtl ? "flex-row-reverse" : ""} gap-3`}>
+              <input
+                type="radio"
+                name="garmentType"
+                id="garment-dresses"
+                value="dresses"
+                checked={garmentType === "dresses"}
+                onChange={() => setGarmentType("dresses")}
+                className={`form-radio w-4 h-4 accent-black mt-1 flex-shrink-0`}
               />
-            </div>
-            <div className="text-center">
-              <h3 className={`font-semibold text-base mb-1 ${isRtl ? "text-right" : "text-left"}`}>
-                {t("Dresses & Jumpsuits")}
-              </h3>
-              <p className={`text-sm text-gray-600 ${isRtl ? "text-right" : "text-left"}`}>
-                {t("Dresses, Jumpsuits, Rompers")}
-              </p>
+              <div className="flex-1">
+                <div className="flex items-center justify-center mb-3">
+                  <img
+                    src="/placeholder.svg?height=60&width=60&query=dress and jumpsuit icon"
+                    alt={t("Dresses & Jumpsuits")}
+                    className="w-12 h-12 object-contain"
+                  />
+                </div>
+                <div className="text-center">
+                  <h3 className={`font-semibold text-base mb-1 ${isRtl ? "text-right" : "text-left"}`}>
+                    {t("Dresses & Jumpsuits")}
+                  </h3>
+                  <p className={`text-sm text-gray-600 ${isRtl ? "text-right" : "text-left"}`}>
+                    {t("Dresses, Jumpsuits, Rompers")}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>

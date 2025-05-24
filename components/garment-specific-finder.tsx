@@ -128,10 +128,36 @@ export function GarmentSpecificFinder({ onComplete }: GarmentSpecificFinderProps
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
+          {/* Hidden radio inputs for form validation */}
+          <input
+            type="radio"
+            name="garmentType"
+            value="tops"
+            checked={garmentType === "tops"}
+            onChange={() => {}}
+            className="sr-only"
+          />
+          <input
+            type="radio"
+            name="garmentType"
+            value="bottoms"
+            checked={garmentType === "bottoms"}
+            onChange={() => {}}
+            className="sr-only"
+          />
+          <input
+            type="radio"
+            name="garmentType"
+            value="dresses"
+            checked={garmentType === "dresses"}
+            onChange={() => {}}
+            className="sr-only"
+          />
+
           {/* Shirts & Blazers */}
           <div
-            className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 hover:bg-gray-50 ${
-              garmentType === "tops" ? "border-black bg-gray-50" : "border-gray-200 hover:border-gray-300"
+            className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 hover:bg-gray-50 hover:shadow-md ${
+              garmentType === "tops" ? "border-black bg-gray-50 shadow-md" : "border-gray-200 hover:border-gray-300"
             }`}
             onClick={() => setGarmentType("tops")}
           >
@@ -154,8 +180,8 @@ export function GarmentSpecificFinder({ onComplete }: GarmentSpecificFinderProps
 
           {/* Bottoms & Pants */}
           <div
-            className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 hover:bg-gray-50 ${
-              garmentType === "bottoms" ? "border-black bg-gray-50" : "border-gray-200 hover:border-gray-300"
+            className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 hover:bg-gray-50 hover:shadow-md ${
+              garmentType === "bottoms" ? "border-black bg-gray-50 shadow-md" : "border-gray-200 hover:border-gray-300"
             }`}
             onClick={() => setGarmentType("bottoms")}
           >
@@ -178,8 +204,8 @@ export function GarmentSpecificFinder({ onComplete }: GarmentSpecificFinderProps
 
           {/* Dresses & Jumpsuits */}
           <div
-            className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 hover:bg-gray-50 ${
-              garmentType === "dresses" ? "border-black bg-gray-50" : "border-gray-200 hover:border-gray-300"
+            className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 hover:bg-gray-50 hover:shadow-md ${
+              garmentType === "dresses" ? "border-black bg-gray-50 shadow-md" : "border-gray-200 hover:border-gray-300"
             }`}
             onClick={() => setGarmentType("dresses")}
           >

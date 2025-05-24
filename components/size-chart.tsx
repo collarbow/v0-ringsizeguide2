@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Info, ExternalLink } from "lucide-react"
+import { Info, ExternalLink, ChevronLeft, ChevronRight } from "lucide-react"
 import { useLanguage } from "@/components/language-provider"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
@@ -30,247 +30,268 @@ export function SizeChart() {
   }
 
   // Common cell classes for consistent styling with increased spacing
-  const headerClass = "font-bold text-center px-6 py-4"
-  const coloredHeaderClass = "font-bold text-center px-6 py-4"
-  const cellClass = "text-center px-6 py-4"
-  const coloredCellClass = "text-center px-6 py-4"
+  const headerClass = "font-bold text-center px-3 py-3 text-xs sm:text-sm whitespace-nowrap"
+  const coloredHeaderClass = "font-bold text-center px-3 py-3 text-xs sm:text-sm whitespace-nowrap"
+  const cellClass = "text-center px-3 py-3 text-xs sm:text-sm whitespace-nowrap"
+  const coloredCellClass = "text-center px-3 py-3 text-xs sm:text-sm whitespace-nowrap"
 
   // Update the tops chart with the new bust measurements and fit types
   const renderTopsChart = () => (
-    <div className="overflow-x-auto -mx-4 sm:mx-0">
-      <div className="min-w-[700px] px-4 sm:px-0 sm:min-w-full">
-        <Table className="w-full">
-          <TableHeader>
-            <TableRow>
-              <TableHead className={`${headerClass} w-[80px] min-w-[80px]`}>{t("Size")}</TableHead>
-              <TableHead className={`${headerClass} w-[80px] min-w-[80px]`}>{t("US Size")}</TableHead>
-              <TableHead className={`${headerClass} w-[80px] min-w-[80px]`}>{t("UK Size")}</TableHead>
-              <TableHead className={`${headerClass} w-[80px] min-w-[80px]`}>{t("EU Size")}</TableHead>
-              <TableHead className={`${coloredHeaderClass} bg-pink-100 w-[120px] min-w-[120px]`}>
-                {t("Body Bust")} ({getUnitDisplay()})
-              </TableHead>
-              <TableHead className={`${coloredHeaderClass} bg-teal-100 w-[120px] min-w-[120px]`}>
-                {t("waist")} ({getUnitDisplay()})
-              </TableHead>
-              <TableHead className={`${coloredHeaderClass} bg-blue-100 w-[120px] min-w-[120px]`}>
-                {t("Hips")} ({getUnitDisplay()})
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <TableRow>
-              <TableCell className={`font-medium ${cellClass}`}>XS</TableCell>
-              <TableCell className={cellClass}>0</TableCell>
-              <TableCell className={cellClass}>6</TableCell>
-              <TableCell className={cellClass}>34</TableCell>
-              <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(84)}</TableCell>
-              <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(66)}</TableCell>
-              <TableCell className={`${coloredCellClass} bg-blue-50`}>{formatMeasurement(90)}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className={`font-medium ${cellClass}`}>S</TableCell>
-              <TableCell className={cellClass}>2</TableCell>
-              <TableCell className={cellClass}>8</TableCell>
-              <TableCell className={cellClass}>36</TableCell>
-              <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(88)}</TableCell>
-              <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(70)}</TableCell>
-              <TableCell className={`${coloredCellClass} bg-blue-50`}>{formatMeasurement(94)}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className={`font-medium ${cellClass}`}>M</TableCell>
-              <TableCell className={cellClass}>4</TableCell>
-              <TableCell className={cellClass}>10</TableCell>
-              <TableCell className={cellClass}>38</TableCell>
-              <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(92)}</TableCell>
-              <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(74)}</TableCell>
-              <TableCell className={`${coloredCellClass} bg-blue-50`}>{formatMeasurement(98)}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className={`font-medium ${cellClass}`}>L</TableCell>
-              <TableCell className={cellClass}>6</TableCell>
-              <TableCell className={cellClass}>12</TableCell>
-              <TableCell className={cellClass}>40</TableCell>
-              <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(96)}</TableCell>
-              <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(78)}</TableCell>
-              <TableCell className={`${coloredCellClass} bg-blue-50`}>{formatMeasurement(102)}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className={`font-medium ${cellClass}`}>XL</TableCell>
-              <TableCell className={cellClass}>8</TableCell>
-              <TableCell className={cellClass}>14</TableCell>
-              <TableCell className={cellClass}>42</TableCell>
-              <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(100)}</TableCell>
-              <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(82)}</TableCell>
-              <TableCell className={`${coloredCellClass} bg-blue-50`}>{formatMeasurement(106)}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className={`font-medium ${cellClass}`}>XXL</TableCell>
-              <TableCell className={cellClass}>10</TableCell>
-              <TableCell className={cellClass}>16</TableCell>
-              <TableCell className={cellClass}>44</TableCell>
-              <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(104)}</TableCell>
-              <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(86)}</TableCell>
-              <TableCell className={`${coloredCellClass} bg-blue-50`}>{formatMeasurement(110)}</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
+    <div className="relative">
+      <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+        <div className="min-w-[800px]">
+          <Table className="w-full">
+            <TableHeader>
+              <TableRow>
+                <TableHead className={`${headerClass} sticky left-0 bg-white z-10 border-r`}>{t("Size")}</TableHead>
+                <TableHead className={headerClass}>{t("US Size")}</TableHead>
+                <TableHead className={headerClass}>{t("UK Size")}</TableHead>
+                <TableHead className={headerClass}>{t("EU Size")}</TableHead>
+                <TableHead className={`${coloredHeaderClass} bg-pink-100`}>
+                  {t("Body Bust")} ({getUnitDisplay()})
+                </TableHead>
+                <TableHead className={`${coloredHeaderClass} bg-teal-100`}>
+                  {t("waist")} ({getUnitDisplay()})
+                </TableHead>
+                <TableHead className={`${coloredHeaderClass} bg-blue-100`}>
+                  {t("Hips")} ({getUnitDisplay()})
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              <TableRow>
+                <TableCell className={`font-medium ${cellClass} sticky left-0 bg-white z-10 border-r`}>XS</TableCell>
+                <TableCell className={cellClass}>0</TableCell>
+                <TableCell className={cellClass}>6</TableCell>
+                <TableCell className={cellClass}>34</TableCell>
+                <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(84)}</TableCell>
+                <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(66)}</TableCell>
+                <TableCell className={`${coloredCellClass} bg-blue-50`}>{formatMeasurement(90)}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className={`font-medium ${cellClass} sticky left-0 bg-white z-10 border-r`}>S</TableCell>
+                <TableCell className={cellClass}>2</TableCell>
+                <TableCell className={cellClass}>8</TableCell>
+                <TableCell className={cellClass}>36</TableCell>
+                <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(88)}</TableCell>
+                <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(70)}</TableCell>
+                <TableCell className={`${coloredCellClass} bg-blue-50`}>{formatMeasurement(94)}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className={`font-medium ${cellClass} sticky left-0 bg-white z-10 border-r`}>M</TableCell>
+                <TableCell className={cellClass}>4</TableCell>
+                <TableCell className={cellClass}>10</TableCell>
+                <TableCell className={cellClass}>38</TableCell>
+                <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(92)}</TableCell>
+                <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(74)}</TableCell>
+                <TableCell className={`${coloredCellClass} bg-blue-50`}>{formatMeasurement(98)}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className={`font-medium ${cellClass} sticky left-0 bg-white z-10 border-r`}>L</TableCell>
+                <TableCell className={cellClass}>6</TableCell>
+                <TableCell className={cellClass}>12</TableCell>
+                <TableCell className={cellClass}>40</TableCell>
+                <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(96)}</TableCell>
+                <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(78)}</TableCell>
+                <TableCell className={`${coloredCellClass} bg-blue-50`}>{formatMeasurement(102)}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className={`font-medium ${cellClass} sticky left-0 bg-white z-10 border-r`}>XL</TableCell>
+                <TableCell className={cellClass}>8</TableCell>
+                <TableCell className={cellClass}>14</TableCell>
+                <TableCell className={cellClass}>42</TableCell>
+                <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(100)}</TableCell>
+                <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(82)}</TableCell>
+                <TableCell className={`${coloredCellClass} bg-blue-50`}>{formatMeasurement(106)}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className={`font-medium ${cellClass} sticky left-0 bg-white z-10 border-r`}>XXL</TableCell>
+                <TableCell className={cellClass}>10</TableCell>
+                <TableCell className={cellClass}>16</TableCell>
+                <TableCell className={cellClass}>44</TableCell>
+                <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(104)}</TableCell>
+                <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(86)}</TableCell>
+                <TableCell className={`${coloredCellClass} bg-blue-50`}>{formatMeasurement(110)}</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </div>
+      </div>
+      <div className="flex items-center justify-center mt-2 text-xs text-gray-500">
+        <ChevronLeft className="h-3 w-3 mr-1" />
+        <span>{t("Swipe To View")}</span>
+        <ChevronRight className="h-3 w-3 ml-1" />
       </div>
     </div>
   )
 
   // Render the bottoms chart with updated hips measurements
   const renderBottomsChart = () => (
-    <div className="overflow-x-auto -mx-4 sm:mx-0">
-      <div className="min-w-[600px] px-4 sm:px-0 sm:min-w-full">
-        <Table className="w-full">
-          <TableHeader>
-            <TableRow>
-              <TableHead className={`${headerClass} w-[100px] min-w-[100px]`}>{t("Size")}</TableHead>
-              <TableHead className={`${headerClass} w-[100px] min-w-[100px]`}>{t("US Size")}</TableHead>
-              <TableHead className={`${headerClass} w-[100px] min-w-[100px]`}>{t("UK Size")}</TableHead>
-              <TableHead className={`${headerClass} w-[100px] min-w-[100px]`}>{t("EU Size")}</TableHead>
-              <TableHead className={`${coloredHeaderClass} w-[150px] min-w-[150px] bg-teal-100`}>
-                {t("waist")} ({getUnitDisplay()})
-              </TableHead>
-              <TableHead className={`${coloredHeaderClass} w-[150px] min-w-[150px] bg-pink-100`}>
-                {t("Hips")} ({getUnitDisplay()})
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <TableRow>
-              <TableCell className={`font-medium ${cellClass}`}>XS</TableCell>
-              <TableCell className={cellClass}>0</TableCell>
-              <TableCell className={cellClass}>6</TableCell>
-              <TableCell className={cellClass}>34</TableCell>
-              <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(62)}</TableCell>
-              <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(88)}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className={`font-medium ${cellClass}`}>S</TableCell>
-              <TableCell className={cellClass}>2</TableCell>
-              <TableCell className={cellClass}>8</TableCell>
-              <TableCell className={cellClass}>36</TableCell>
-              <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(66)}</TableCell>
-              <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(92)}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className={`font-medium ${cellClass}`}>M</TableCell>
-              <TableCell className={cellClass}>4</TableCell>
-              <TableCell className={cellClass}>10</TableCell>
-              <TableCell className={cellClass}>38</TableCell>
-              <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(70)}</TableCell>
-              <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(96)}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className={`font-medium ${cellClass}`}>L</TableCell>
-              <TableCell className={cellClass}>6</TableCell>
-              <TableCell className={cellClass}>12</TableCell>
-              <TableCell className={cellClass}>40</TableCell>
-              <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(74)}</TableCell>
-              <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(100)}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className={`font-medium ${cellClass}`}>XL</TableCell>
-              <TableCell className={cellClass}>8</TableCell>
-              <TableCell className={cellClass}>14</TableCell>
-              <TableCell className={cellClass}>42</TableCell>
-              <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(78)}</TableCell>
-              <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(104)}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className={`font-medium ${cellClass}`}>XXL</TableCell>
-              <TableCell className={cellClass}>10</TableCell>
-              <TableCell className={cellClass}>16</TableCell>
-              <TableCell className={cellClass}>44</TableCell>
-              <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(82)}</TableCell>
-              <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(108)}</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
+    <div className="relative">
+      <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+        <div className="min-w-[600px]">
+          <Table className="w-full">
+            <TableHeader>
+              <TableRow>
+                <TableHead className={`${headerClass} sticky left-0 bg-white z-10 border-r`}>{t("Size")}</TableHead>
+                <TableHead className={headerClass}>{t("US Size")}</TableHead>
+                <TableHead className={headerClass}>{t("UK Size")}</TableHead>
+                <TableHead className={headerClass}>{t("EU Size")}</TableHead>
+                <TableHead className={`${coloredHeaderClass} bg-teal-100`}>
+                  {t("waist")} ({getUnitDisplay()})
+                </TableHead>
+                <TableHead className={`${coloredHeaderClass} bg-pink-100`}>
+                  {t("Hips")} ({getUnitDisplay()})
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              <TableRow>
+                <TableCell className={`font-medium ${cellClass} sticky left-0 bg-white z-10 border-r`}>XS</TableCell>
+                <TableCell className={cellClass}>0</TableCell>
+                <TableCell className={cellClass}>6</TableCell>
+                <TableCell className={cellClass}>34</TableCell>
+                <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(62)}</TableCell>
+                <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(88)}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className={`font-medium ${cellClass} sticky left-0 bg-white z-10 border-r`}>S</TableCell>
+                <TableCell className={cellClass}>2</TableCell>
+                <TableCell className={cellClass}>8</TableCell>
+                <TableCell className={cellClass}>36</TableCell>
+                <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(66)}</TableCell>
+                <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(92)}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className={`font-medium ${cellClass} sticky left-0 bg-white z-10 border-r`}>M</TableCell>
+                <TableCell className={cellClass}>4</TableCell>
+                <TableCell className={cellClass}>10</TableCell>
+                <TableCell className={cellClass}>38</TableCell>
+                <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(70)}</TableCell>
+                <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(96)}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className={`font-medium ${cellClass} sticky left-0 bg-white z-10 border-r`}>L</TableCell>
+                <TableCell className={cellClass}>6</TableCell>
+                <TableCell className={cellClass}>12</TableCell>
+                <TableCell className={cellClass}>40</TableCell>
+                <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(74)}</TableCell>
+                <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(100)}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className={`font-medium ${cellClass} sticky left-0 bg-white z-10 border-r`}>XL</TableCell>
+                <TableCell className={cellClass}>8</TableCell>
+                <TableCell className={cellClass}>14</TableCell>
+                <TableCell className={cellClass}>42</TableCell>
+                <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(78)}</TableCell>
+                <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(104)}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className={`font-medium ${cellClass} sticky left-0 bg-white z-10 border-r`}>XXL</TableCell>
+                <TableCell className={cellClass}>10</TableCell>
+                <TableCell className={cellClass}>16</TableCell>
+                <TableCell className={cellClass}>44</TableCell>
+                <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(82)}</TableCell>
+                <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(108)}</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </div>
+      </div>
+      <div className="flex items-center justify-center mt-2 text-xs text-gray-500">
+        <ChevronLeft className="h-3 w-3 mr-1" />
+        <span>{t("Swipe To View")}</span>
+        <ChevronRight className="h-3 w-3 ml-1" />
       </div>
     </div>
   )
 
   // Update the dresses chart to use the same body bust measurements as shirts & blazers
   const renderDressesChart = () => (
-    <div className="overflow-x-auto -mx-4 sm:mx-0">
-      <div className="min-w-[700px] px-4 sm:px-0 sm:min-w-full">
-        <Table className="w-full">
-          <TableHeader>
-            <TableRow>
-              <TableHead className={`${headerClass} w-[100px] min-w-[100px]`}>{t("Size")}</TableHead>
-              <TableHead className={`${headerClass} w-[100px] min-w-[100px]`}>{t("US Size")}</TableHead>
-              <TableHead className={`${headerClass} w-[100px] min-w-[100px]`}>{t("UK Size")}</TableHead>
-              <TableHead className={`${headerClass} w-[100px] min-w-[100px]`}>{t("EU Size")}</TableHead>
-              <TableHead className={`${coloredHeaderClass} bg-pink-100 w-[150px] min-w-[150px]`}>
-                {t("Body Bust")} ({getUnitDisplay()})
-              </TableHead>
-              <TableHead className={`${coloredHeaderClass} w-[150px] min-w-[150px] bg-teal-100`}>
-                {t("waist")} ({getUnitDisplay()})
-              </TableHead>
-              <TableHead className={`${coloredHeaderClass} w-[150px] min-w-[150px] bg-blue-100`}>
-                {t("Hips")} ({getUnitDisplay()})
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <TableRow>
-              <TableCell className={`font-medium ${cellClass}`}>XS</TableCell>
-              <TableCell className={cellClass}>0</TableCell>
-              <TableCell className={cellClass}>6</TableCell>
-              <TableCell className={cellClass}>34</TableCell>
-              <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(84)}</TableCell>
-              <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(66)}</TableCell>
-              <TableCell className={`${coloredCellClass} bg-blue-50`}>{formatMeasurement(90)}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className={`font-medium ${cellClass}`}>S</TableCell>
-              <TableCell className={cellClass}>2</TableCell>
-              <TableCell className={cellClass}>8</TableCell>
-              <TableCell className={cellClass}>36</TableCell>
-              <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(88)}</TableCell>
-              <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(70)}</TableCell>
-              <TableCell className={`${coloredCellClass} bg-blue-50`}>{formatMeasurement(94)}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className={`font-medium ${cellClass}`}>M</TableCell>
-              <TableCell className={cellClass}>4</TableCell>
-              <TableCell className={cellClass}>10</TableCell>
-              <TableCell className={cellClass}>38</TableCell>
-              <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(92)}</TableCell>
-              <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(74)}</TableCell>
-              <TableCell className={`${coloredCellClass} bg-blue-50`}>{formatMeasurement(98)}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className={`font-medium ${cellClass}`}>L</TableCell>
-              <TableCell className={cellClass}>6</TableCell>
-              <TableCell className={cellClass}>12</TableCell>
-              <TableCell className={cellClass}>40</TableCell>
-              <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(96)}</TableCell>
-              <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(78)}</TableCell>
-              <TableCell className={`${coloredCellClass} bg-blue-50`}>{formatMeasurement(102)}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className={`font-medium ${cellClass}`}>XL</TableCell>
-              <TableCell className={cellClass}>8</TableCell>
-              <TableCell className={cellClass}>14</TableCell>
-              <TableCell className={cellClass}>42</TableCell>
-              <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(100)}</TableCell>
-              <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(82)}</TableCell>
-              <TableCell className={`${coloredCellClass} bg-blue-50`}>{formatMeasurement(106)}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className={`font-medium ${cellClass}`}>XXL</TableCell>
-              <TableCell className={cellClass}>10</TableCell>
-              <TableCell className={cellClass}>16</TableCell>
-              <TableCell className={cellClass}>44</TableCell>
-              <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(104)}</TableCell>
-              <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(86)}</TableCell>
-              <TableCell className={`${coloredCellClass} bg-blue-50`}>{formatMeasurement(110)}</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
+    <div className="relative">
+      <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+        <div className="min-w-[800px]">
+          <Table className="w-full">
+            <TableHeader>
+              <TableRow>
+                <TableHead className={`${headerClass} sticky left-0 bg-white z-10 border-r`}>{t("Size")}</TableHead>
+                <TableHead className={headerClass}>{t("US Size")}</TableHead>
+                <TableHead className={headerClass}>{t("UK Size")}</TableHead>
+                <TableHead className={headerClass}>{t("EU Size")}</TableHead>
+                <TableHead className={`${coloredHeaderClass} bg-pink-100`}>
+                  {t("Body Bust")} ({getUnitDisplay()})
+                </TableHead>
+                <TableHead className={`${coloredHeaderClass} bg-teal-100`}>
+                  {t("waist")} ({getUnitDisplay()})
+                </TableHead>
+                <TableHead className={`${coloredHeaderClass} bg-blue-100`}>
+                  {t("Hips")} ({getUnitDisplay()})
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              <TableRow>
+                <TableCell className={`font-medium ${cellClass} sticky left-0 bg-white z-10 border-r`}>XS</TableCell>
+                <TableCell className={cellClass}>0</TableCell>
+                <TableCell className={cellClass}>6</TableCell>
+                <TableCell className={cellClass}>34</TableCell>
+                <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(84)}</TableCell>
+                <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(66)}</TableCell>
+                <TableCell className={`${coloredCellClass} bg-blue-50`}>{formatMeasurement(90)}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className={`font-medium ${cellClass} sticky left-0 bg-white z-10 border-r`}>S</TableCell>
+                <TableCell className={cellClass}>2</TableCell>
+                <TableCell className={cellClass}>8</TableCell>
+                <TableCell className={cellClass}>36</TableCell>
+                <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(88)}</TableCell>
+                <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(70)}</TableCell>
+                <TableCell className={`${coloredCellClass} bg-blue-50`}>{formatMeasurement(94)}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className={`font-medium ${cellClass} sticky left-0 bg-white z-10 border-r`}>M</TableCell>
+                <TableCell className={cellClass}>4</TableCell>
+                <TableCell className={cellClass}>10</TableCell>
+                <TableCell className={cellClass}>38</TableCell>
+                <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(92)}</TableCell>
+                <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(74)}</TableCell>
+                <TableCell className={`${coloredCellClass} bg-blue-50`}>{formatMeasurement(98)}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className={`font-medium ${cellClass} sticky left-0 bg-white z-10 border-r`}>L</TableCell>
+                <TableCell className={cellClass}>6</TableCell>
+                <TableCell className={cellClass}>12</TableCell>
+                <TableCell className={cellClass}>40</TableCell>
+                <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(96)}</TableCell>
+                <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(78)}</TableCell>
+                <TableCell className={`${coloredCellClass} bg-blue-50`}>{formatMeasurement(102)}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className={`font-medium ${cellClass} sticky left-0 bg-white z-10 border-r`}>XL</TableCell>
+                <TableCell className={cellClass}>8</TableCell>
+                <TableCell className={cellClass}>14</TableCell>
+                <TableCell className={cellClass}>42</TableCell>
+                <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(100)}</TableCell>
+                <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(82)}</TableCell>
+                <TableCell className={`${coloredCellClass} bg-blue-50`}>{formatMeasurement(106)}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className={`font-medium ${cellClass} sticky left-0 bg-white z-10 border-r`}>XXL</TableCell>
+                <TableCell className={cellClass}>10</TableCell>
+                <TableCell className={cellClass}>16</TableCell>
+                <TableCell className={cellClass}>44</TableCell>
+                <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(104)}</TableCell>
+                <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(86)}</TableCell>
+                <TableCell className={`${coloredCellClass} bg-blue-50`}>{formatMeasurement(110)}</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </div>
+      </div>
+      <div className="flex items-center justify-center mt-2 text-xs text-gray-500">
+        <ChevronLeft className="h-3 w-3 mr-1" />
+        <span>{t("Swipe To View")}</span>
+        <ChevronRight className="h-3 w-3 ml-1" />
       </div>
     </div>
   )
@@ -280,82 +301,89 @@ export function SizeChart() {
     const unitSuffix = measurementSystem === "cm" ? " cm" : " in"
 
     return (
-      <div className="overflow-x-auto -mx-4 sm:mx-0">
-        <div className="min-w-[900px] px-4 sm:px-0 sm:min-w-full">
-          <Table className="w-full">
-            <TableHeader>
-              <TableRow>
-                <TableHead className={`${headerClass} w-[100px] min-w-[100px]`}>{t("Size")}</TableHead>
-                <TableHead className={`${coloredHeaderClass} bg-gray-100`}>{t("Body Bust")}</TableHead>
-                <TableHead className={`${coloredHeaderClass} bg-pink-100`} colSpan={1}>
-                  {t("Slim Fit")} (+{measurementSystem === "cm" ? "2" : "0.8"}
-                  {unitSuffix})
-                </TableHead>
-                <TableHead className={`${coloredHeaderClass} bg-teal-100`} colSpan={1}>
-                  {t("Regular Fit")} (+{measurementSystem === "cm" ? "6" : "2.4"}
-                  {unitSuffix})
-                </TableHead>
-                <TableHead className={`${coloredHeaderClass} bg-blue-100`} colSpan={1}>
-                  {t("Relaxed Fit")} (+{measurementSystem === "cm" ? "8" : "3.1"}
-                  {unitSuffix})
-                </TableHead>
-                <TableHead className={`${coloredHeaderClass} bg-purple-100`} colSpan={1}>
-                  {t("Oversized Fit")} (+{measurementSystem === "cm" ? "10" : "3.9"}
-                  {unitSuffix})
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              <TableRow>
-                <TableCell className={`font-medium ${cellClass}`}>XS</TableCell>
-                <TableCell className={`${coloredCellClass} bg-gray-50`}>{formatMeasurement(84)}</TableCell>
-                <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(86)}</TableCell>
-                <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(90)}</TableCell>
-                <TableCell className={`${coloredCellClass} bg-blue-50`}>{formatMeasurement(92)}</TableCell>
-                <TableCell className={`${coloredCellClass} bg-purple-50`}>{formatMeasurement(94)}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className={`font-medium ${cellClass}`}>S</TableCell>
-                <TableCell className={`${coloredCellClass} bg-gray-50`}>{formatMeasurement(88)}</TableCell>
-                <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(90)}</TableCell>
-                <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(94)}</TableCell>
-                <TableCell className={`${coloredCellClass} bg-blue-50`}>{formatMeasurement(96)}</TableCell>
-                <TableCell className={`${coloredCellClass} bg-purple-50`}>{formatMeasurement(98)}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className={`font-medium ${cellClass}`}>M</TableCell>
-                <TableCell className={`${coloredCellClass} bg-gray-50`}>{formatMeasurement(92)}</TableCell>
-                <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(94)}</TableCell>
-                <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(98)}</TableCell>
-                <TableCell className={`${coloredCellClass} bg-blue-50`}>{formatMeasurement(100)}</TableCell>
-                <TableCell className={`${coloredCellClass} bg-purple-50`}>{formatMeasurement(102)}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className={`font-medium ${cellClass}`}>L</TableCell>
-                <TableCell className={`${coloredCellClass} bg-gray-50`}>{formatMeasurement(96)}</TableCell>
-                <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(98)}</TableCell>
-                <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(102)}</TableCell>
-                <TableCell className={`${coloredCellClass} bg-blue-50`}>{formatMeasurement(104)}</TableCell>
-                <TableCell className={`${coloredCellClass} bg-purple-50`}>{formatMeasurement(106)}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className={`font-medium ${cellClass}`}>XL</TableCell>
-                <TableCell className={`${coloredCellClass} bg-gray-50`}>{formatMeasurement(100)}</TableCell>
-                <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(102)}</TableCell>
-                <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(106)}</TableCell>
-                <TableCell className={`${coloredCellClass} bg-blue-50`}>{formatMeasurement(108)}</TableCell>
-                <TableCell className={`${coloredCellClass} bg-purple-50`}>{formatMeasurement(110)}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className={`font-medium ${cellClass}`}>XXL</TableCell>
-                <TableCell className={`${coloredCellClass} bg-gray-50`}>{formatMeasurement(104)}</TableCell>
-                <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(106)}</TableCell>
-                <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(110)}</TableCell>
-                <TableCell className={`${coloredCellClass} bg-blue-50`}>{formatMeasurement(112)}</TableCell>
-                <TableCell className={`${coloredCellClass} bg-purple-50`}>{formatMeasurement(114)}</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
+      <div className="relative">
+        <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+          <div className="min-w-[900px]">
+            <Table className="w-full">
+              <TableHeader>
+                <TableRow>
+                  <TableHead className={`${headerClass} sticky left-0 bg-white z-10 border-r`}>{t("Size")}</TableHead>
+                  <TableHead className={`${coloredHeaderClass} bg-gray-100`}>{t("Body Bust")}</TableHead>
+                  <TableHead className={`${coloredHeaderClass} bg-pink-100`} colSpan={1}>
+                    {t("Slim Fit")} (+{measurementSystem === "cm" ? "2" : "0.8"}
+                    {unitSuffix})
+                  </TableHead>
+                  <TableHead className={`${coloredHeaderClass} bg-teal-100`} colSpan={1}>
+                    {t("Regular Fit")} (+{measurementSystem === "cm" ? "6" : "2.4"}
+                    {unitSuffix})
+                  </TableHead>
+                  <TableHead className={`${coloredHeaderClass} bg-blue-100`} colSpan={1}>
+                    {t("Relaxed Fit")} (+{measurementSystem === "cm" ? "8" : "3.1"}
+                    {unitSuffix})
+                  </TableHead>
+                  <TableHead className={`${coloredHeaderClass} bg-purple-100`} colSpan={1}>
+                    {t("Oversized Fit")} (+{measurementSystem === "cm" ? "10" : "3.9"}
+                    {unitSuffix})
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <TableRow>
+                  <TableCell className={`font-medium ${cellClass} sticky left-0 bg-white z-10 border-r`}>XS</TableCell>
+                  <TableCell className={`${coloredCellClass} bg-gray-50`}>{formatMeasurement(84)}</TableCell>
+                  <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(86)}</TableCell>
+                  <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(90)}</TableCell>
+                  <TableCell className={`${coloredCellClass} bg-blue-50`}>{formatMeasurement(92)}</TableCell>
+                  <TableCell className={`${coloredCellClass} bg-purple-50`}>{formatMeasurement(94)}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className={`font-medium ${cellClass} sticky left-0 bg-white z-10 border-r`}>S</TableCell>
+                  <TableCell className={`${coloredCellClass} bg-gray-50`}>{formatMeasurement(88)}</TableCell>
+                  <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(90)}</TableCell>
+                  <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(94)}</TableCell>
+                  <TableCell className={`${coloredCellClass} bg-blue-50`}>{formatMeasurement(96)}</TableCell>
+                  <TableCell className={`${coloredCellClass} bg-purple-50`}>{formatMeasurement(98)}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className={`font-medium ${cellClass} sticky left-0 bg-white z-10 border-r`}>M</TableCell>
+                  <TableCell className={`${coloredCellClass} bg-gray-50`}>{formatMeasurement(92)}</TableCell>
+                  <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(94)}</TableCell>
+                  <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(98)}</TableCell>
+                  <TableCell className={`${coloredCellClass} bg-blue-50`}>{formatMeasurement(100)}</TableCell>
+                  <TableCell className={`${coloredCellClass} bg-purple-50`}>{formatMeasurement(102)}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className={`font-medium ${cellClass} sticky left-0 bg-white z-10 border-r`}>L</TableCell>
+                  <TableCell className={`${coloredCellClass} bg-gray-50`}>{formatMeasurement(96)}</TableCell>
+                  <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(98)}</TableCell>
+                  <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(102)}</TableCell>
+                  <TableCell className={`${coloredCellClass} bg-blue-50`}>{formatMeasurement(104)}</TableCell>
+                  <TableCell className={`${coloredCellClass} bg-purple-50`}>{formatMeasurement(106)}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className={`font-medium ${cellClass} sticky left-0 bg-white z-10 border-r`}>XL</TableCell>
+                  <TableCell className={`${coloredCellClass} bg-gray-50`}>{formatMeasurement(100)}</TableCell>
+                  <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(102)}</TableCell>
+                  <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(106)}</TableCell>
+                  <TableCell className={`${coloredCellClass} bg-blue-50`}>{formatMeasurement(108)}</TableCell>
+                  <TableCell className={`${coloredCellClass} bg-purple-50`}>{formatMeasurement(110)}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className={`font-medium ${cellClass} sticky left-0 bg-white z-10 border-r`}>XXL</TableCell>
+                  <TableCell className={`${coloredCellClass} bg-gray-50`}>{formatMeasurement(104)}</TableCell>
+                  <TableCell className={`${coloredCellClass} bg-pink-50`}>{formatMeasurement(106)}</TableCell>
+                  <TableCell className={`${coloredCellClass} bg-teal-50`}>{formatMeasurement(110)}</TableCell>
+                  <TableCell className={`${coloredCellClass} bg-blue-50`}>{formatMeasurement(112)}</TableCell>
+                  <TableCell className={`${coloredCellClass} bg-purple-50`}>{formatMeasurement(114)}</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </div>
+        </div>
+        <div className="flex items-center justify-center mt-2 text-xs text-gray-500">
+          <ChevronLeft className="h-3 w-3 mr-1" />
+          <span>{t("Swipe To View")}</span>
+          <ChevronRight className="h-3 w-3 ml-1" />
         </div>
       </div>
     )
@@ -396,10 +424,6 @@ export function SizeChart() {
             {t("Inches")}
           </Button>
         </div>
-      </div>
-
-      <div className="text-sm text-gray-500 mb-2">
-        <p>{t("Swipe To View")}</p>
       </div>
 
       {garmentType === "tops" && renderTopsChart()}

@@ -142,9 +142,13 @@ export function GarmentSpecificFinder({ onComplete }: GarmentSpecificFinderProps
                 className="w-12 h-12 object-contain"
               />
             </div>
-            <div className={`text-center ${isRtl ? "text-right" : "text-left"}`}>
-              <h3 className="font-semibold text-base mb-1">{t("Shirts & Blazers")}</h3>
-              <p className="text-sm text-gray-600">{t("Shirts, Blouses, T-shirts, Blazers")}</p>
+            <div className="text-center">
+              <h3 className={`font-semibold text-base mb-1 ${isRtl ? "text-right" : "text-left"}`}>
+                {t("Shirts & Blazers")}
+              </h3>
+              <p className={`text-sm text-gray-600 ${isRtl ? "text-right" : "text-left"}`}>
+                {t("Shirts, Blouses, T-shirts, Blazers")}
+              </p>
             </div>
           </div>
 
@@ -162,9 +166,13 @@ export function GarmentSpecificFinder({ onComplete }: GarmentSpecificFinderProps
                 className="w-12 h-12 object-contain"
               />
             </div>
-            <div className={`text-center ${isRtl ? "text-right" : "text-left"}`}>
-              <h3 className="font-semibold text-base mb-1">{t("Bottoms & Pants")}</h3>
-              <p className="text-sm text-gray-600">{t("Pants, Skirts, Shorts, Trousers")}</p>
+            <div className="text-center">
+              <h3 className={`font-semibold text-base mb-1 ${isRtl ? "text-right" : "text-left"}`}>
+                {t("Bottoms & Pants")}
+              </h3>
+              <p className={`text-sm text-gray-600 ${isRtl ? "text-right" : "text-left"}`}>
+                {t("Pants, Skirts, Shorts, Trousers")}
+              </p>
             </div>
           </div>
 
@@ -182,9 +190,13 @@ export function GarmentSpecificFinder({ onComplete }: GarmentSpecificFinderProps
                 className="w-12 h-12 object-contain"
               />
             </div>
-            <div className={`text-center ${isRtl ? "text-right" : "text-left"}`}>
-              <h3 className="font-semibold text-base mb-1">{t("Dresses & Jumpsuits")}</h3>
-              <p className="text-sm text-gray-600">{t("Dresses, Jumpsuits, Rompers")}</p>
+            <div className="text-center">
+              <h3 className={`font-semibold text-base mb-1 ${isRtl ? "text-right" : "text-left"}`}>
+                {t("Dresses & Jumpsuits")}
+              </h3>
+              <p className={`text-sm text-gray-600 ${isRtl ? "text-right" : "text-left"}`}>
+                {t("Dresses, Jumpsuits, Rompers")}
+              </p>
             </div>
           </div>
         </div>
